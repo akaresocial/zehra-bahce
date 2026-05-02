@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.DS_Store
+._*
+.netlify/
+zehra-bahce-dist.zip
+package-lock.json

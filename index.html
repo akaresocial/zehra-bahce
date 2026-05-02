@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#FFB6D5" />
+  <meta name="description" content="Zehra'nın Sihirli Bahçesi — matematik öğrenirken bahçe büyüten eğlenceli oyun" />
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Sihirli Bahçe" />
+  <meta name="mobile-web-app-capable" content="yes" />
+
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-180.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <title>Zehra'nın Sihirli Bahçesi</title>
+</head>
+<body>
+  <div id="app">
+
+    <section id="screen-yukleme" class="screen aktif">
+      <div class="yukleme-icerik">
+        <div class="logo-emoji">🌸</div>
+        <h1 class="oyun-baslik">Zehra'nın<br/>Sihirli Bahçesi</h1>
+        <div class="yukleme-spinner">
+          <span></span><span></span><span></span>
+        </div>
+        <p class="yukleme-yazi">Pıtırcık seni bekliyor...</p>
+      </div>
+    </section>
+
+    <section id="screen-karsilama" class="screen">
+      <div class="karsilama-icerik">
+        <div class="karakter-buyuk">🐰</div>
+        <div class="konusma-balonu">
+          <p>Merhaba Zehra! Ben <strong>Pıtırcık</strong>!</p>
+          <p>Birlikte sihirli bir bahçe büyütelim mi?</p>
+        </div>
+        <button class="buyuk-buton" data-hedef="screen-ana">
+          <span class="buton-emoji">✨</span>
+          <span>Hadi Başlayalım!</span>
+        </button>
+      </div>
+    </section>
+
+    <section id="screen-ana" class="screen">
+      <header class="ust-bar">
+        <div class="kullanici-bilgi">
+          <span class="avatar">🌸</span>
+          <span class="kullanici-ad">Zehra</span>
+        </div>
+        <div class="kaynaklar">
+          <span class="kaynak"><span class="kaynak-emoji">🌱</span><span id="kaynak-tohum">0</span></span>
+          <span class="kaynak"><span class="kaynak-emoji">💧</span><span id="kaynak-su">0</span></span>
+          <span class="kaynak"><span class="kaynak-emoji">☀️</span><span id="kaynak-gunes">0</span></span>
+        </div>
+      </header>
+
+      <main class="ana-icerik">
+        <div class="ana-karakterler">
+          <div class="karakter zehra-karakter">
+            <div class="karakter-emoji">🧒🏻</div>
+            <span class="karakter-isim">Zehra</span>
+          </div>
+          <div class="karakter pitircik-karakter">
+            <div class="karakter-emoji">🐰</div>
+            <span class="karakter-isim">Pıtırcık</span>
+          </div>
+        </div>
+
+        <div class="konusma-balonu kucuk-balon">
+          <p>Bugün bahçede <strong>maceraya</strong> ne dersin?</p>
+        </div>
+
+        <button class="oyna-buton" data-hedef="screen-harita">
+          <span class="oyna-emoji">▶️</span>
+          <span>OYNA</span>
+        </button>
+
+        <div class="alt-menu">
+          <button class="alt-buton" data-hedef="screen-bahce">
+            <span class="alt-emoji">🌷</span>
+            <span>Bahçem</span>
+          </button>
+          <button class="alt-buton" data-hedef="screen-dolap">
+            <span class="alt-emoji">👗</span>
+            <span>Dolabım</span>
+          </button>
+          <button class="alt-buton" data-hedef="screen-hayvanlar">
+            <span class="alt-emoji">🐾</span>
+            <span>Hayvanlar</span>
+          </button>
+          <button class="alt-buton" data-hedef="screen-ayarlar">
+            <span class="alt-emoji">⚙️</span>
+            <span>Ayarlar</span>
+          </button>
+        </div>
+      </main>
+    </section>
+
+    <section id="screen-harita" class="screen">
+      <header class="ust-bar">
+        <button class="geri-buton" data-hedef="screen-ana">←</button>
+        <h2 class="ust-baslik">Macera Haritası</h2>
+        <span class="bos-yer"></span>
+      </header>
+
+      <div class="harita-icerik">
+        <p class="harita-aciklama">Bir bölge seç ve sayma macerasına başla!</p>
+        <div class="bolge-listesi" id="bolge-listesi"></div>
+      </div>
+    </section>
+
+    <section id="screen-oyun" class="screen">
+      <header class="ust-bar">
+        <button class="geri-buton" data-hedef="screen-harita">←</button>
+        <h2 class="ust-baslik" id="oyun-baslik">Bölge 1</h2>
+        <div class="ilerleme-rozet" id="ilerleme-rozet">1/3</div>
+      </header>
+
+      <div class="oyun-icerik">
+        <div class="pitircik-rehber">
+          <div class="rehber-emoji">🐰</div>
+          <div class="konusma-balonu kucuk-balon" id="oyun-talimat">
+            <p>Hadi başlayalım!</p>
+          </div>
+        </div>
+
+        <!-- KLASIK: toplama/çıkarma görsel sahne -->
+        <div class="oyun-tip oyun-klasik" id="oyun-klasik">
+          <div class="islem-yazi" id="islem-yazi">3 + 2 = ?</div>
+          <div class="sayma-alani islem-sahne" id="sayma-alani"></div>
+          <div class="cevap-paneli" id="cevap-paneli">
+            <p class="cevap-soru">Doğru cevap hangisi?</p>
+            <div class="cevap-secenekleri" id="cevap-secenekleri"></div>
+          </div>
+        </div>
+
+        <!-- BALON PATLATMA -->
+        <div class="oyun-tip oyun-balon" id="oyun-balon" hidden>
+          <div class="islem-yazi" id="balon-islem">5 + 3 = ?</div>
+          <div class="balon-alani" id="balon-alani"></div>
+        </div>
+
+        <!-- EŞLEŞTİRME -->
+        <div class="oyun-tip oyun-eslestirme" id="oyun-eslestirme" hidden>
+          <div class="eslestirme-baslik">İşlemleri sonuçlarıyla birleştir!</div>
+          <div class="eslestirme-alan">
+            <div class="eslestirme-sira ust" id="eslestirme-ust"></div>
+            <svg class="eslestirme-cizgi" id="eslestirme-cizgi"></svg>
+            <div class="eslestirme-sira alt" id="eslestirme-alt"></div>
+          </div>
+        </div>
+
+        <!-- SÜRÜKLE-BIRAK -->
+        <div class="oyun-tip oyun-surukle" id="oyun-surukle" hidden>
+          <div class="islem-yazi" id="surukle-talimat-rozet">Sepete ? meyve koy</div>
+          <div class="surukle-sahne" id="surukle-sahne">
+            <span class="surukle-agac" id="surukle-agac">🌳</span>
+            <div class="surukle-meyveler" id="surukle-meyveler"></div>
+            <div class="surukle-sepet" id="surukle-sepet">
+              <span class="surukle-sepet-icon">🧺</span>
+              <span class="surukle-sepet-sayim" id="surukle-sayim">0 / 0</span>
+            </div>
+            <button class="surukle-bitir" id="surukle-bitir">Tamam ✓</button>
+          </div>
+        </div>
+
+        <div class="yildiz-paneli" id="yildiz-paneli">
+          <span class="yildiz-slot" data-i="0">⭐</span>
+          <span class="yildiz-slot" data-i="1">⭐</span>
+          <span class="yildiz-slot" data-i="2">⭐</span>
+        </div>
+
+        <div class="konfeti-katman" id="konfeti-katman" hidden></div>
+      </div>
+
+      <div class="geri-bildirim" id="geri-bildirim" hidden>
+        <div class="geri-bildirim-icerik">
+          <div class="gb-emoji" id="gb-emoji">🎉</div>
+          <p class="gb-yazi" id="gb-yazi">Aferin!</p>
+        </div>
+      </div>
+
+      <div class="pedagoji-katman" id="pedagoji-katman" hidden>
+        <p class="pedagoji-baslik" id="pedagoji-baslik">Birlikte sayalım!</p>
+        <div class="pedagoji-sahne" id="pedagoji-sahne"></div>
+        <p class="pedagoji-cevap-yazisi" id="pedagoji-cevap-yazisi"></p>
+        <p class="pedagoji-devam">Şimdi tekrar dene...</p>
+      </div>
+    </section>
+
+    <section id="screen-sonuc" class="screen">
+      <div class="sonuc-icerik">
+        <div class="sonuc-karakter">🐰</div>
+        <h2 class="sonuc-baslik" id="sonuc-baslik">Harika İş!</h2>
+        <div class="sonuc-yildizlar" id="sonuc-yildizlar">
+          <span>⭐</span><span>⭐</span><span>⭐</span>
+        </div>
+        <div class="konusma-balonu kucuk-balon">
+          <p id="sonuc-mesaj">Bahçen için ödüller kazandın!</p>
+        </div>
+        <div class="odul-listesi" id="odul-listesi"></div>
+        <div class="sonuc-butonlar">
+          <button class="buyuk-buton ikincil-buton" id="btn-tekrar-oyna">
+            <span class="buton-emoji">🔁</span>
+            <span>Tekrar Oyna</span>
+          </button>
+          <button class="buyuk-buton" data-hedef="screen-harita">
+            <span class="buton-emoji">🗺️</span>
+            <span>Haritaya Dön</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-bahce" class="screen">
+      <header class="ust-bar">
+        <button class="geri-buton" data-hedef="screen-ana">←</button>
+        <h2 class="ust-baslik">Bahçem</h2>
+        <span class="bos-yer"></span>
+      </header>
+
+      <div class="bahce-v2">
+        <div class="bahce-kaynaklar">
+          <span class="bk-rozet"><span class="bk-emoji">🌱</span><span id="bahce-tohum">0</span></span>
+          <span class="bk-rozet"><span class="bk-emoji">💧</span><span id="bahce-su">0</span></span>
+          <span class="bk-rozet"><span class="bk-emoji">☀️</span><span id="bahce-gunes">0</span></span>
+        </div>
+
+        <div class="bahce-sahne" id="bahce-sahne">
+          <div class="bahce-gokyuzu">
+            <span class="b-gunes">☀️</span>
+            <span class="b-bulut b-bulut-1">☁️</span>
+            <span class="b-bulut b-bulut-2">☁️</span>
+            <span class="b-bulut b-bulut-3">⛅</span>
+          </div>
+
+          <div class="bahce-uzak">
+            <span class="b-dag b-dag-1"></span>
+            <span class="b-dag b-dag-2"></span>
+          </div>
+
+          <div class="bahce-orman">
+            <span class="b-agac">🌳</span>
+            <span class="b-agac">🌲</span>
+            <span class="b-agac">🌳</span>
+            <span class="b-agac">🌲</span>
+            <span class="b-agac">🌳</span>
+          </div>
+
+          <div class="bahce-cim">
+            <span class="b-cit"></span>
+          </div>
+
+          <div class="bahce-onkatman">
+            <span class="b-uçan b-kelebek">🦋</span>
+            <span class="b-uçan b-ari">🐝</span>
+            <span class="b-uçan b-kelebek-2">🦋</span>
+          </div>
+
+          <div class="bahce-toprak-grid" id="bahce-toprak-grid"></div>
+        </div>
+
+        <p class="bahce-mesaj" id="bahce-mesaj">Toprağa dokun → tohum ek → sula → güneş ver</p>
+      </div>
+    </section>
+
+    <section id="screen-dolap" class="screen">
+      <header class="ust-bar">
+        <button class="geri-buton" data-hedef="screen-ana">←</button>
+        <h2 class="ust-baslik">Dolabım</h2>
+        <span class="bos-yer"></span>
+      </header>
+
+      <div class="dolap-icerik">
+        <div class="zehra-vitrin">
+          <div class="zehra-katmanlar" id="zehra-katmanlar">
+            <span class="z-katman z-baz">🧒🏻</span>
+            <span class="z-katman z-sapka" id="z-sapka"></span>
+            <span class="z-katman z-gozluk" id="z-gozluk"></span>
+            <span class="z-katman z-taki" id="z-taki"></span>
+          </div>
+        </div>
+
+        <div class="dolap-sekmeler">
+          <button class="dolap-sekme aktif" data-kategori="sapka">🎀 Şapka</button>
+          <button class="dolap-sekme" data-kategori="gozluk">👓 Gözlük</button>
+          <button class="dolap-sekme" data-kategori="taki">💎 Takı</button>
+        </div>
+
+        <div class="dolap-listesi" id="dolap-listesi"></div>
+      </div>
+    </section>
+
+    <section id="screen-hayvanlar" class="screen">
+      <header class="ust-bar">
+        <button class="geri-buton" data-hedef="screen-ana">←</button>
+        <h2 class="ust-baslik">Hayvanlarım</h2>
+        <span class="bos-yer"></span>
+      </header>
+
+      <div class="hayvanlar-icerik">
+        <div class="hayvan-sahnesi" id="hayvan-sahnesi"></div>
+        <div class="hayvan-listesi" id="hayvan-listesi"></div>
+      </div>
+    </section>
+
+    <section id="screen-ebeveyn" class="screen">
+      <header class="ust-bar">
+        <button class="geri-buton" data-hedef="screen-ana">←</button>
+        <h2 class="ust-baslik">Anne–Baba Paneli</h2>
+        <span class="bos-yer"></span>
+      </header>
+
+      <div class="ebeveyn-icerik">
+        <p class="eb-aciklama">Zehra'nın matematik ilerlemesi:</p>
+
+        <div class="eb-istatistik">
+          <div class="eb-kart">
+            <span class="eb-buyuk" id="eb-toplam">0</span>
+            <span class="eb-etiket">Toplam Soru</span>
+          </div>
+          <div class="eb-kart">
+            <span class="eb-buyuk" id="eb-dogru">0</span>
+            <span class="eb-etiket">Doğru</span>
+          </div>
+          <div class="eb-kart">
+            <span class="eb-buyuk" id="eb-basari">%0</span>
+            <span class="eb-etiket">Başarı</span>
+          </div>
+          <div class="eb-kart">
+            <span class="eb-buyuk" id="eb-sure">0s</span>
+            <span class="eb-etiket">Ort. Süre</span>
+          </div>
+        </div>
+
+        <div class="eb-grafik">
+          <p class="eb-grafik-baslik">Son 7 Gün — Doğru Cevaplar</p>
+          <svg class="eb-grafik-svg" id="eb-grafik-svg" viewBox="0 0 300 110" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+
+        <div class="eb-bolge-listesi" id="eb-bolge-listesi"></div>
+
+        <div class="eb-zorluk">
+          <h3 class="eb-baslik">Zorluk Modu</h3>
+          <div class="eb-zorluk-secim">
+            <button class="eb-zor-btn" data-mod="otomatik">Otomatik</button>
+            <button class="eb-zor-btn" data-mod="kolay">Kolay</button>
+            <button class="eb-zor-btn" data-mod="orta">Orta</button>
+            <button class="eb-zor-btn" data-mod="zor">Zor</button>
+          </div>
+        </div>
+
+        <div class="eb-ses">
+          <label class="eb-anahtar">
+            <input type="checkbox" id="eb-ses-anahtar" checked />
+            <span>Sesler açık</span>
+          </label>
+          <label class="muzik-anahtar">
+            <input type="checkbox" id="eb-muzik-anahtar" />
+            <span>🎵 Arka plan müziği</span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-ayarlar" class="screen">
+      <header class="ust-bar">
+        <button class="geri-buton" data-hedef="screen-ana">←</button>
+        <h2 class="ust-baslik">Ayarlar</h2>
+        <span class="bos-yer"></span>
+      </header>
+      <div class="ayarlar-icerik">
+        <button class="ayar-buton" id="btn-sifirla">
+          <span>🔄</span>
+          <span>İlerlemeyi Sıfırla</span>
+        </button>
+        <p class="surum-yazi">Sürüm 1.0 — 30 Bölüm Toplama-Çıkarma</p>
+        <p class="surum-yazi" style="margin-top:10px; font-style: italic;">İpucu: Logoya 1.5sn basılı tut → Anne–Baba paneli</p>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
