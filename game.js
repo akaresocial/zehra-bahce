@@ -279,7 +279,9 @@
       kart.className = 'harita-bolum ' +
         (acik ? (bitti ? 'bitti' : 'acik') : 'kilitli') +
         ` bolge-${b.bolge}`;
-      if (b.kod === '1.1' || (b.no === 5)) kart.classList.add('boss');
+      // Bölge başına son bölüm (boss): bölgenin son no'su
+      const bolgeSonNo = BOLUMLER.filter((x) => x.bolge === b.bolge).length;
+      if (b.no === bolgeSonNo) kart.classList.add('boss');
       kart.disabled = !acik;
 
       const yildizSimge = bitti
